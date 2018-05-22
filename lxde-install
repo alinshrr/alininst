@@ -1,0 +1,8 @@
+pacman -S gamin LXDE
+
+chmod +x ~/.xinitrc
+
+vim ~/.xinitrc↵
+# exec startlxde
+
+startx
