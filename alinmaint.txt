@@ -6,3 +6,5 @@ https://wiki.archlinux.org/index.php/System_maintenance
 # network interface down : sudo ip link set wlp58s0 down
 # network enable wlan auto detect : sudo systemctl enable netctl-auto@wlp58s0.service
 # network start wlan profile : sudo netctl start wlp58s0-WIFIonICE
+
+$> sudo pacman -Syu
