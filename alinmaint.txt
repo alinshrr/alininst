@@ -1,0 +1,8 @@
+https://wiki.archlinux.org/index.php/System_maintenance
+# Check if any systemd services have entered in a failed state : systemctl --failed
+# erros in /var/log : journalctl -p 3 -xb
+# network ip address : ip -4 addr
+# network show all profiles: ip a
+# network interface down : sudo ip link set wlp58s0 down
+# network enable wlan auto detect : sudo systemctl enable netctl-auto@wlp58s0.service
+# network start wlan profile : sudo netctl start wlp58s0-WIFIonICE

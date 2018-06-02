@@ -1,8 +1,44 @@
+# sudoers
+sudo pacman -S sudo sudoer
+
+# locale
+locale.gen uncomment en_DK-UTF8
+[job@PCXX02 ~]$ echo 'LANG=en_DK.utf8' | sudo tee /etc/locale.conf
+sudo locale-gen
+
+# network
+pacman -S wpa_actiond
+sudo systemctl enable netctl-auto@<interface>.service
+sudo systemctl start netctl-auto@<interface>.service
+
+# xorg
+pacman -S xorg xorg-twm xorg-xclock xterm
+
+# install LXDE
 pacman -S gamin LXDE
 
+# configure startx
 chmod +x ~/.xinitrc
-
 vim ~/.xinitrc↵
 # exec startlxde
-
 startx
+
+# keyboard
+$> setxkbmap ch # tmp switch
+[job@PCXX02 ~]$ sudo localectl --no-convert set-x11-keymap ch
+https://wiki.archlinux.de/title/Arch_Linux_auf_Deutsch_stellen
+
+# touchpad
+[job@PCXX02 ~]$ sudo pacman -S  xf86-input-libinput
+[job@PCXX02 ~]$ echo 'xinput disable "SynPS/2 Synaptics TouchPad"' >> .config/lxsession/LXDE/autostart
+
+# software:
+git firefox leafpad keepassxc
+
+# AUR google-chrome
+sudo pacman -S fakeroot # was required for makepkg
+$ git clone https://aur.archlinux.org/google-chrome.git
+$ cd google-chrome/
+makepkg -s
+sudo pacman -U google-chrome-63.0.3239.108-1-x86_64.pkg.tar.xz
+# https://wiki.archlinux.org/index.php/Chromium/Tips_and_tricks
