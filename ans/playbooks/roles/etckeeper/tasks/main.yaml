@@ -1,0 +1,39 @@
+---
+# Install and setup etckeeper
+
+- name: Install etckeeper
+  pacman:
+    name: etckeeper
+    state: present
+
+- name: Debug
+  debug:
+    msg: "{{ etckeeper_email }}"
+
+- name: Etckeeper init
+  command: etckeeper init
+  args:
+    creates: /etc/.etckeeper
+  register: etckeeper_init
+
+- name: Set email for the git repository
+  git_config:
+    name: user.email
+    value: "{{ etckeeper_email }}"
+    repo: /etc
+    scope: local
+
+- name: Set email for the git repository
+  git_config:
+    name: user.name
+    value: "{{ etckeeper_name }}"
+    repo: /etc
+    scope: local
+
+#  command: etckeeper vcs config user.name alinshrr && etckeeper vcs config user.email '{{ email }}'
+#  when: etckeeper_init is changed
+#  when: true
+
+- name: Initial etckeeper commit
+  command: etckeeper commit "Initial commit by ansible"
+  when: etckeeper_init is changed

@@ -1,0 +1,23 @@
+- name: create and manage custom pacman repo
+  hosts: localhost
+  # vars_file: ../vars/param.yaml 
+  vars_prompt:
+    - name: "ansible_become_pass"
+      prompt: "Sudo password"
+      private: yes
+#      encrypt: "sha512_crypt"
+  tasks:
+
+    - name: create /data/pcman-repo directory
+      file:
+        path: /data/pcman-repo
+        state: directory
+        owner: job
+        group: job
+        mode: 0744
+      become: yes
+      become_method: sudo
+
+    - name: password
+      debug:
+        msg: "{{ ansible_become_pass }}"

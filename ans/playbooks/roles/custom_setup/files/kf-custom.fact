@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# check if etckeeper has been setup
+git -C /etc rev-list --max-parents=0 HEAD > /dev/null 2>&1
+rc=$?
+etckeeper_setup=`[ $rc = 0 ] && echo true || echo false`
+
+# return json
+echo "{"
+echo "\"etckeepersetup\" : \"${etckeeper_setup}\""
+echo "}"

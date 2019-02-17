@@ -1,0 +1,19 @@
+- name: Create custom fact directory
+  file:
+    path: "/etc/ansible/facts.d"
+    state: "directory"
+
+- name: Insert custom fact file
+  copy:
+    src: files/kf-custom.fact
+    dest: /etc/ansible/facts.d/kf-custom.fact
+    mode: 0755
+  register: filecopy
+
+- name: Re-run setup to use custom facts
+  setup: ~
+  when: filecopy is changed
+
+- name: Debug
+  debug:
+    msg: "{{ hostvars['localhost'].ansible_local['kf-custom']['etckeepersetup'] }}"
