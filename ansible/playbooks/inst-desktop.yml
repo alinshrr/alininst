@@ -37,5 +37,5 @@
 
     - name: install software
       pacman:
-        name: firefox, openssh, ttf-dejavu, gdisk
+        name: firefox, openssh, ttf-dejavu, gdisk, arch-install-scripts
         state: present
