@@ -1,0 +1,41 @@
+- name: install desktop
+  hosts: localhost
+  tasks:
+
+    - name: include vars
+      include_vars: 
+        file: ../vars/vars.yml
+
+    - name: debug
+      debug:
+        msg: "{{ pwd }}"
+
+    - name: upgrade system
+      pacman:
+        update_cache: yes
+        upgrade: yes
+
+    - name: install windows manager
+      pacman:
+        name: xorg, lxdm, lxde
+        state: present
+    
+    - name: enable lxdm
+      systemd:
+        name: lxdm
+        enabled: yes
+
+    - name: add user job
+      user:
+        name: job
+        password: "{{ pwd }}"
+        # update_password: on_create
+        update_password: always
+        shell: /bin/bash
+        groups: wheel
+        append: yes
+
+    - name: install software
+      pacman:
+        name: firefox, openssh, ttf-dejavu, gdisk
+        state: present
