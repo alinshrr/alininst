@@ -1,0 +1,23 @@
+---
+# pacstrap new system
+- name: "Install new system with pacstrap"
+  hosts: localhost
+  tasks:
+
+  - name: "Mount new system"
+    mount:
+      src: /dev/sda3 
+      path: /mnt
+      fstype: ext4
+      state: mounted
+  
+  - name: "Install base system using pacstrap"
+    command: /usr/bin/pacstrap /mnt base base-devel ansible git openssh dialog wpa_supplicant
+  
+  - name: "Create fstab on new system"
+    shell: /usr/bin/genfstab -U -p /mnt > /mnt/etc/fstab
+  
+  - name: "Unmount new system"
+    mount:
+      path: /mnt
+      state: absent
