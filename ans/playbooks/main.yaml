@@ -14,6 +14,7 @@
     - role: custom_setup
     - role: etckeeper
       when: hostvars['localhost'].ansible_local['kf-custom']['etckeepersetup'] == "false"
+    - role: software
 
 ## - name: post installation steps
 #- hosts: localhost
