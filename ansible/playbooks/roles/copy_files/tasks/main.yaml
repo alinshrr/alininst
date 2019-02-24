@@ -11,3 +11,13 @@
     src: /root/.ssh
     dest: /mnt/root
     force: yes
+
+- name: Create folder /data
+  file:
+    path: /mnt/data
+    state: directory
+
+- name: Copy this repo to ne system
+  git:
+    repo: /root/alininst
+    dest: /mnt/data
