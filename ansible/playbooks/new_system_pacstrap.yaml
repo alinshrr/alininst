@@ -60,7 +60,7 @@
     command: /usr/bin/arch-chroot /mnt /bin/mkinitcpio -p linux chdir=/boot
 
   - name: Run grub install
-    command: /usr/bin/arch-chroot /mnt /bin/grub-install --target=i386-pc
+    command: /usr/bin/arch-chroot /mnt /bin/grub-install --target=i386-pc --recheck /dev/sda
 
   - name: Generate grub.cfg
     command: /usr/bin/arch-chroot /mnt /bin/grub-mkconfig -o /boot/grub/grub.cfg
