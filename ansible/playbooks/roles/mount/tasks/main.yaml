@@ -1,0 +1,9 @@
+---
+# mount new system
+
+- name: Mount new system
+  mount:
+    src: "{{ device.linux }}"
+    path: /mnt
+    fstype: ext4
+    state: mounted

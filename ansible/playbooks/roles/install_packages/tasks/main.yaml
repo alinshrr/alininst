@@ -1,0 +1,5 @@
+---
+# pacstrap new system
+
+- name: Install base system using pacstrap
+  command: /usr/bin/pacstrap /mnt base ansible git openssh dialog wpa_supplicant intel-ucode

@@ -1,0 +1,7 @@
+---
+# unmount /mnt and clean up /etc/fstab
+
+- name: Unmount new system
+  mount:
+    path: /mnt
+    state: unmounted

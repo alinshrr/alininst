@@ -1,0 +1,5 @@
+---
+# Create fstab
+
+- name: Create fstab on new system
+  shell: /usr/bin/genfstab -U -p /mnt > /mnt/etc/fstab

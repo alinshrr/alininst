@@ -1,0 +1,16 @@
+---
+pwd: $6$HuBUEfliGLNXQl0p$AsfFtS5t0DvMdTWaWN2JXUOnELP8olRIsPG9e2Ovk1y9Bcr4j7MG/JP9c0Yqvw44F2eMcOxYIy5U8D/XxB7XX/
+
+device:
+  name: /dev/sda
+  windows: /dev/sda1
+  linux: /dev/sda3
+
+locale:
+  languages:
+    - de_DE.UTF-8 UTF-8
+    - en_US.UTF-8 UTF-8
+
+  keymap: de-latin1
+  font: Lat2-Terminus16
+  timezone: Europe/Zurich

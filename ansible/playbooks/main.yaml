@@ -1,0 +1,20 @@
+---
+# Playbook with roles
+
+- hosts: localhost
+  #  vars_prompt:
+  #    - name: "ansible_become_pass"
+  #      prompt: "Sudo password"
+  #      private: yes
+  become: yes
+  become_user: root
+  vars_files: ./vars/main.yaml
+  roles:
+    - role: mount
+    - role: install_packages
+    - role: setup_locale
+    - role: setup_fs
+    - role: copy_files
+    - role: grub
+    - role: umount
+
