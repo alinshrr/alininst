@@ -1,0 +1,7 @@
+1. boot archlinux on usb stick
+2. #> lsblk -f 			# fnd out device name
+3. #> cfdisk <device>		# create one bootable linux partition
+4. #> fdisk -l			# validate partion
+5. #> mkfs.ext4 <partition>	# format partition
+6. #> mount <partition> /mnt	# mount partition
+7. 
