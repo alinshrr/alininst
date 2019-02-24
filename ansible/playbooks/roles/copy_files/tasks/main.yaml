@@ -20,4 +20,4 @@
 - name: Copy this repo to ne system
   git:
     repo: /root/alininst
-    dest: /mnt/data
+    dest: /mnt/data/alininst
