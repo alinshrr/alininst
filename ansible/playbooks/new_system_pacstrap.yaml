@@ -68,4 +68,4 @@
   - name: Unmount new system
     mount:
       path: /mnt
-      state: unmunted
+      state: unmounted
