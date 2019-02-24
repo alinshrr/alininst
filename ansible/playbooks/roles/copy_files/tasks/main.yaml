@@ -1,11 +1,6 @@
 ---
 # copy files to new system
 
-- name: Copy netctl config file
-  copy:
-    src: /etc/netctl/wlp3s0-AGOG01
-    dest: /mnt/etc/netctl
-
 - name: Copy ssh id
   copy:
     src: /root/.ssh

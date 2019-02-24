@@ -15,6 +15,7 @@
     - role: setup_locale
     - role: setup_fs
     - role: copy_files
+    - role: network
     - role: grub
     - role: umount
 

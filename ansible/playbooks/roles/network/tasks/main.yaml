@@ -1,0 +1,14 @@
+---
+# setup network
+
+- name: Copy netctl config file
+  copy:
+    src: "{{ item }}"
+    dest: /mnt/etc/netctl
+  with_fileglob:
+    - /etc/netctl/wlp3s0-*
+
+- name: Enable network profiles
+  command: "/usr/bin/arch-chroot /mnt netctl enable {{ item.split('/')[-1] }}"
+  with_fileglob:
+    - /mnt/etc/netctl/wlp3s0-*
