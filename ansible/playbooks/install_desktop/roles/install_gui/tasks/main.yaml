@@ -1,17 +1,24 @@
 ---
 # Install GUI for ArchLinux
 
-- name: upgrade system
+- name: Upgrade system
   pacman:
     update_cache: yes
     upgrade: yes
 
-- name: install windows manager
+- name: Install windows manager
   pacman:
     name: xorg, lxdm, lxde
     state: present
 
-- name: enable lxdm
+- name: Enable lxdm
   systemd:
     name: lxdm
     enabled: yes
+
+- name: Set keyboard
+  copy:
+    src: files/00-keyboard.conf
+    dest: /etc/X11/xorg.conf.d/00-keyboard.conf
+    mode: 0644
+

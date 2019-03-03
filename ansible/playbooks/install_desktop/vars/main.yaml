@@ -5,7 +5,8 @@ pwd: $6$HuBUEfliGLNXQl0p$AsfFtS5t0DvMdTWaWN2JXUOnELP8olRIsPG9e2Ovk1y9Bcr4j7MG/JP
 
 locale:
   languages:
-    - de_DE.UTF-8 UTF-8
+    - en_DK.UTF-8 UTF-8
+    # - de_DE.UTF-8 UTF-8
     - en_US.UTF-8 UTF-8
   keymap: de-latin1
   font: Lat2-Terminus16
