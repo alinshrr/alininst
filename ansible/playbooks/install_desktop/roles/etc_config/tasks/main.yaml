@@ -7,3 +7,10 @@
     state: present
     regex: '%wheel\sALL=\(ALL\)\sALL'
     line: '%wheel ALL=(ALL) ALL'
+
+- name: Set keyboard
+  copy:
+    src: files/00-keyboard.conf
+    dest: /etc/X11/xorg.conf.d/00-keyboard.conf
+    mode: 0644
+
