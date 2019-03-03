@@ -11,6 +11,6 @@
     # update_password: on_create
     update_password: always
     shell: /bin/bash
-    groups: wheel
+    groups: wheel, users
     append: yes
 
