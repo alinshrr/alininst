@@ -7,3 +7,10 @@
     state: present
     regex: '%wheel\sALL=\(ALL\)\sALL'
     line: '%wheel ALL=(ALL) ALL'
+
+- name: Config ALSA
+  copy:
+    src: files/thinkpad-t440.conf
+    dest: /etc/modeprobe.d/thinkpad-t440.conf
+    mode: 0644
+  

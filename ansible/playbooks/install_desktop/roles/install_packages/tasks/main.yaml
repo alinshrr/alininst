@@ -8,5 +8,5 @@
 
 - name: Install software
   pacman:
-    name: firefox, ttf-dejavu, gdisk, arch-install-scripts, os-prober, openssh, vim, sudo, xterm
+    name: firefox, ttf-dejavu, gdisk, arch-install-scripts, os-prober, openssh, vim, sudo, xterm, alsa-utils
     state: present
