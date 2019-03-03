@@ -1,0 +1,16 @@
+---
+# Copy ssh keys
+
+- command: whoami
+  register: whoami
+
+- debug:
+    msg: "whoami: {{ whoami.stdout }}"
+
+- name: Copy alinshrr ssh keys from root to job
+  copy:
+    src: /root/.ssh/alinshrr
+    dest: /home/job/.ssh
+    owner: job
+    group: job
+    mode: preserve

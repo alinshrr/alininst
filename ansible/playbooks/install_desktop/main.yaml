@@ -33,4 +33,6 @@
     - name: Create user
       role: adduser
       tags: adduser
-
+    - name: Setup ssh client
+      role: ssh_client
+      tags: ssh_client
