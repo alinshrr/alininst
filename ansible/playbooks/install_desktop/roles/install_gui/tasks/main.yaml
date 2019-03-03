@@ -1,0 +1,17 @@
+---
+# Install GUI for ArchLinux
+
+- name: upgrade system
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: install windows manager
+  pacman:
+    name: xorg, lxdm, lxde
+    state: present
+
+- name: enable lxdm
+  systemd:
+    name: lxdm
+    enabled: yes

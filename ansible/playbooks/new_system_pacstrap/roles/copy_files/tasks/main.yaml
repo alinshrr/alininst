@@ -14,5 +14,5 @@
 
 - name: Copy this repo to ne system
   git:
-    repo: /root/alininst
+    repo: git@github.com:alinshrr/alininst.git
     dest: /mnt/data/alininst

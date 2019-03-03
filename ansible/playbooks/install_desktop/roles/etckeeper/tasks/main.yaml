@@ -1,6 +1,10 @@
 ---
 # Install and setup etckeeper
 
+- name: Include vars
+  include_vars:
+    file: ./vars/main.yaml
+
 - name: Install etckeeper
   pacman:
     name: etckeeper

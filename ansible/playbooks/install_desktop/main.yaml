@@ -1,0 +1,30 @@
+---
+# ArchLinux desktop installation
+
+- name: install desktop
+  hosts: localhost
+  become: yes
+  become_user: root
+  vars_files: ./vars/main.yaml
+
+  roles:
+    - name: Create custom facts like check if etckeeper is installed
+      role: custom_setup
+      tags: [custom_setup,etckeeper]
+    - name: Install and configure etckeeper
+      role: etckeeper
+      when: hostvars['localhost'].ansible_local['kf-custom']['etckeepersetup'] == "false"
+      tags: etckeeper
+    - name: /etc configuration
+      role: etc_config
+      tags: etc_config
+    - name: Install standard software packages
+      role: install_packages
+      tags: inst_std_pkgs
+    - name: Install GUI LXDE
+      role: install_gui
+      tags: inst_gui
+    - name: Create user
+      role: adduser
+      tags: adduser
+

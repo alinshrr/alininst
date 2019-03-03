@@ -1,0 +1,9 @@
+---
+# /etc configuration
+
+- name: Grant %wheel sudo rights
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regex: '%wheel\sALL=\(ALL\)\sALL'
+    line: '%wheel ALL=(ALL) ALL'

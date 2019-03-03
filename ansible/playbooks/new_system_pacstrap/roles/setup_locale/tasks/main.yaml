@@ -16,6 +16,7 @@
   when: item.0 == 0
   with_indexed_items: locale.languages
 
+# <TODO> override line if it exists
 - name: Set keymap
   lineinfile:
     dest: /mnt/etc/vconsole.conf

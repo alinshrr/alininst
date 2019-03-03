@@ -1,7 +1,0 @@
----
-# Install and setup etckeeper
-
-- name: Install software
-  pacman:
-    name: ttf-dejavu
-    state: present

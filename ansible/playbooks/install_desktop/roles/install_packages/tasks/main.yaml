@@ -1,0 +1,12 @@
+---
+# Install standard software packacges
+
+- name: Upgrade system
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install software
+  pacman:
+    name: firefox, ttf-dejavu, gdisk, arch-install-scripts, os-prober, openssh, vim, sudo, xterm
+    state: present

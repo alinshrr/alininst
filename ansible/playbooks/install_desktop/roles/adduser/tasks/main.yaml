@@ -1,0 +1,16 @@
+---
+# Add user 
+
+- debug: 
+    msg: "{{ pwd }}"
+
+- name: add user job
+  user:
+    name: job
+    password: "{{ pwd }}"
+    # update_password: on_create
+    update_password: always
+    shell: /bin/bash
+    groups: wheel
+    append: yes
+
