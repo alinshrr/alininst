@@ -4,7 +4,10 @@
 - name: install desktop
   hosts: localhost
   become: yes
-  become_user: root
+  vars_prompt:
+    - name: "ansible_become_pass"
+      prompt: "Sudo password"
+      private: yes
   vars_files: ./vars/main.yaml
 
   roles:
@@ -15,7 +18,10 @@
       role: etckeeper
       when: hostvars['localhost'].ansible_local['kf-custom']['etckeepersetup'] == "false"
       tags: etckeeper
-    - name: /etc configuration
+    - name: Set locale
+      role: locale
+      tags: locale
+    - name: Configure /etc
       role: etc_config
       tags: etc_config
     - name: Install standard software packages

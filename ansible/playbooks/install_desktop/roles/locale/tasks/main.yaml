@@ -1,0 +1,36 @@
+---
+# Setup locale
+  
+- debug:
+    msg: "Languages: {{ item }}"
+  with_items: "{{ locale.languages }}"
+
+- name: Enable locales in locale.gen
+  replace:
+    dest:  /etc/locale.gen
+    regexp: "^#{{ item }}.*$"
+    replace: "{{ item }}"
+  with_items: "{{ locale.languages }}"
+
+- name: Export locale to locale.conf
+  lineinfile:
+    dest: /etc/locale.conf
+    regex: "LANG="
+    line: "LANG={{ item.1.split(' ')[0] }}"
+    create: yes
+  when: item.0 == 0
+  with_indexed_items: "{{ locale.languages }}"
+
+# <TODO> override line if it exists
+- name: Set keymap
+  lineinfile:
+    dest: /etc/vconsole.conf
+    line: "KEYMAP={{ locale.keymap }}\nFONT={{ locale.font }}"
+    create: yes
+  when: locale.keymap is defined and locale.font is defined
+
+- name: Set timezone
+  command: ln -sf /usr/share/zoneinfo/{{ locale.timezone }} /etc/localtime
+
+- name: Generate locale
+  command: locale-gen
