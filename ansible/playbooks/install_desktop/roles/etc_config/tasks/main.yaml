@@ -11,6 +11,11 @@
 - name: Config ALSA
   copy:
     src: files/thinkpad-t440.conf
-    dest: /etc/modeprobe.d/thinkpad-t440.conf
+    dest: /etc/modprobe.d/thinkpad-t440.conf
     mode: 0644
   
+- name: Set default sound device
+  copy:
+    src: files/asound.conf
+    dest: /etc/asound.conf
+    mode: 0644

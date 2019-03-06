@@ -8,7 +8,7 @@
 
 - name: Install windows manager
   pacman:
-    name: xorg, lxdm, lxde
+    name: xorg, lxdm, lxde, lxrandr, xf86-input-libinput, xarchiver, leafpad, wifi-radar
     state: present
 
 - name: Enable lxdm

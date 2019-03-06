@@ -21,6 +21,9 @@
     - name: Set locale
       role: locale
       tags: locale
+    - name: Configure network
+      role: network
+      tags: network
     - name: Configure /etc
       role: etc_config
       tags: etc_config

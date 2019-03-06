@@ -1,0 +1,30 @@
+---
+# Setup and configure network
+
+- name: Update system
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install network utilities
+  pacman:
+    name: dialog, wpa_supplicant, ifplugd
+    state: present
+
+- name: Create wired profile
+  copy:
+    src: files/enp0s25
+    dest: /etc/netctl/enp0s25
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable wired network service
+  systemd:
+    name: netctl-ifplugd@enp0s25.service
+    enabled: yes
+
+- name: Enable automatic wlan connection
+  systemd:
+    name: netctl-auto@wlp3s0.service
+    enabled: yes
