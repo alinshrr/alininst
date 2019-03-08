@@ -8,7 +8,12 @@
 
 - name: Install windows manager
   pacman:
-    name: xorg, lxdm, lxde, lxrandr, xf86-input-libinput, xarchiver, leafpad, wifi-radar
+    name: xorg, lxdm, lxde, lxrandr
+    state: present
+
+- name: Install additional utilitues
+  pacman:
+    name: xf86-video-intel, xf86-input-libinput, xarchiver, leafpad, wifi-radar, xorg-xbacklight, acpi, acpilight
     state: present
 
 - name: Enable lxdm
@@ -16,9 +21,21 @@
     name: lxdm
     enabled: yes
 
+- name: Set udev rules for backlight
+  copy:
+    src: files/90-backlight.rules
+    dest: /etc/udev/rules.d/90-backlight.rules
+    mode: 0644
+
 - name: Set keyboard
   copy:
     src: files/00-keyboard.conf
     dest: /etc/X11/xorg.conf.d/00-keyboard.conf
     mode: 0644
+
+- name: Specify correct directory for backlight
+  copy:
+    src: files/20-intel.conf
+    dest: /etc/X11/xorg.conf.d/20-intel.conf
+    mode: 644
 
