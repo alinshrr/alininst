@@ -33,9 +33,15 @@
     dest: /etc/X11/xorg.conf.d/00-keyboard.conf
     mode: 0644
 
-- name: Specify correct directory for backlight
+    #- name: Specify correct directory for backlight
+    #  copy:
+    #    src: files/20-intel.conf
+    #    dest: /etc/X11/xorg.conf.d/20-intel.conf
+    #    mode: 0644
+
+- name: Set trackpoint acceleration
   copy:
-    src: files/20-intel.conf
-    dest: /etc/X11/xorg.conf.d/20-intel.conf
-    mode: 644
+    src: files/90-input.sh
+    dest: /etc/X11/xinit/xinitrc.d/90-input.sh
+    mode: 0755
 
