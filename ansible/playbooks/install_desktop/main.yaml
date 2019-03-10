@@ -30,6 +30,9 @@
     - name: Install standard software packages
       role: install_packages
       tags: inst_std_pkgs
+    - name: Battery management
+      role: battery
+      tags: battery
     - name: Install GUI LXDE
       role: install_gui
       tags: inst_gui

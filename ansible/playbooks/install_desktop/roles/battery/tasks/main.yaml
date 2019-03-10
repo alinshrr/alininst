@@ -1,0 +1,24 @@
+---
+# Configure battery management
+
+- name: Upgrade system
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install software
+  pacman:
+    name: tpacpi-bat
+    state: present
+
+- name: Install set-battery service
+  copy:
+    src: files/set-battery.service
+    dest: /etc/systemd/system/set-battery.service
+    mode: 0644
+
+- name: Enable set-battery.service
+  systemd:
+    name: set-battery
+    enabled: yes
+    state: started
