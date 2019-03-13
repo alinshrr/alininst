@@ -8,8 +8,22 @@
 
 - name: Install network utilities
   pacman:
-    name: dialog, wpa_supplicant, ifplugd
+    name: dialog, wpa_supplicant, ifplugd, ufw
     state: present
+
+- name: Firewall deny everything
+  ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
+    log: yes
+    
+- name: Status of firewall
+  command: ufw status verbose
+  register: ufw_status
+
+- debug:
+    msg: "{{ ufw_status.stdout.split('\n') }}"
 
 - name: Create wired profile
   copy:
