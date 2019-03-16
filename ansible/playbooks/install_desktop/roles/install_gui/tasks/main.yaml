@@ -13,7 +13,7 @@
 
 - name: Install additional utilitues
   pacman:
-    name: xf86-video-intel, xf86-input-libinput, xarchiver, leafpad, wifi-radar, xorg-xbacklight, acpi, acpilight
+    name: xf86-video-intel, xf86-input-libinput, xarchiver, leafpad, wifi-radar, xorg-xbacklight, acpi, acpilight, dunst
     state: present
 
 - name: Enable lxdm
@@ -45,3 +45,31 @@
     dest: /etc/X11/xinit/xinitrc.d/90-input.sh
     mode: 0755
 
+# dunst notification daemon
+- name: Copy dunst config file into /etc
+  copy:
+    src: /usr/share/dunst/dunstrc
+    dest: /etc/xdg/dunst/dunstrc
+    mode: 644
+    force: no
+
+- name: Set icon_path in dunstrc
+  ini_file:
+    path: /etc/xdg/dunst/dunstrc
+    section: global
+    option: icon_position
+    value: left
+
+- name: Set icon_path in dunstrc
+  ini_file:
+    path: /etc/xdg/dunst/dunstrc
+    section: global
+    option: icon_path
+    value: /usr/share/icons/Adwaita/16x16/devices/:/usr/share/icons/Adwaita/16x16/status/
+
+- name: Set background colour for urgency_normal
+  ini_file:
+    path: /etc/xdg/dunst/dunstrc
+    section: urgency_normal
+    option: background
+    value: '"#939310"'
