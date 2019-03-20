@@ -1,0 +1,51 @@
+---
+- hosts: localhost
+  vars_files: ./vars.yaml
+  vars:
+    config: /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME
+    file_ignore: .dotfilesignore
+  tasks:
+
+    - name: Create empty git repository for dotfiles
+      command: "git init --bare {{ dir_git }}"
+      args:
+        chdir: "{{ lookup('env','HOME') }}"
+        creates: "{{ dir_git }}"
+
+    - name: Create alias for dotfiles repo in $HOME
+      lineinfile:
+        path: "{{ lookup('env','HOME') }}/.bashrc.d/aliases"
+        regexp: '^\s*alias\s*config.*\$HOME/.dotfiles'
+        line: "alias config='{{ config }}'"
+
+    - name: Create .dotfilesignore file
+      copy:
+        src: "files/{{ file_ignore }}"
+        dest: "{{ lookup('env','HOME') }}/{{ file_ignore }}"
+        mode: 0644
+        force: no
+
+    - name: Set .dotfilesignore
+      command: "{{ config }} config core.excludesfile {{ file_ignore }}"
+      args: 
+        chdir: "{{ lookup('env','HOME') }}"
+
+    - name: Set git user name
+      command: "{{ config }} config user.name alinshrr"
+      args: 
+        chdir: "{{ lookup('env','HOME') }}"
+
+    - name: Set git user email
+      command: "{{ config }} config user.email alinshrr@gmail.com"
+      args: 
+        chdir: "{{ lookup('env','HOME') }}"
+
+    - name: Set remote repo url
+      command: "{{ config }} remote add origin git@github.com:alinshrr/dotfiles.git"
+      args: 
+        chdir: "{{ lookup('env','HOME') }}"
+
+    - name: Set upstream branch
+      command: "{{ config }} push --set-upstream origin master"
+      args: 
+        chdir: "{{ lookup('env','HOME') }}"
