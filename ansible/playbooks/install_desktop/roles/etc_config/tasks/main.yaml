@@ -7,13 +7,15 @@
     state: present
     regex: '%wheel\sALL=\(ALL\)\sALL'
     line: '%wheel ALL=(ALL) ALL'
+    validate: 'visudo -cf %s'
 
-- name: Config ALSA
-  copy:
-    src: files/thinkpad-t440.conf
-    dest: /etc/modprobe.d/thinkpad-t440.conf
-    mode: 0644
-  
+# Not sure if this is needed
+#- name: Config ALSA
+#  copy:
+#    src: files/thinkpad-t440.conf
+#    dest: /etc/modprobe.d/thinkpad-t440.conf
+#    mode: 0644
+
 - name: Set default sound device
   copy:
     src: files/asound.conf
