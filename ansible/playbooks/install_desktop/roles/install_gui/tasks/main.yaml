@@ -1,6 +1,10 @@
 ---
 # Install GUI for ArchLinux
 
+- name: Include vars file
+  include_vars:
+    file: ./vars/main.yaml
+
 - name: Upgrade system
   pacman:
     update_cache: yes
@@ -11,10 +15,12 @@
     name: xorg, lxdm, lxde, lxrandr
     state: present
 
-- name: Install additional utilitues
+- debug:
+    msg: 'pacman pkgs: {{ lookup("flattened", pmlist) }}'
+
+- name: Install additional utilities
   pacman:
-    name: xf86-video-intel, xf86-input-libinput, xarchiver, leafpad, wifi-radar, xorg-xbacklight, acpi, acpilight, dunst
-    state: present
+    name: '{{ lookup("flattened", pmlist) }}'
 
 - name: Enable lxdm
   systemd:

@@ -1,0 +1,19 @@
+---
+
+pmlist:
+  - xf86-video-intel
+  - xf86-input-libinput
+  - xarchiver
+  - leafpad
+  - wifi-radar
+  - xorg-xbacklight
+  - acpi
+  - acpilight
+  - dunst
+  - evince
+  - keepassxc
+  - xdg-user-dirs
+  - gvfs
+  - gvfs-afc
+  - gvfs-gphoto2
+  - ifuse
