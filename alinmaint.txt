@@ -8,3 +8,6 @@ https://wiki.archlinux.org/index.php/System_maintenance
 # network start wlan profile : sudo netctl start wlp58s0-WIFIonICE
 
 $> sudo pacman -Syu
+
+# List installed AUR packages (installed packages which are not in the synced db)
+$> pacman -Qm
