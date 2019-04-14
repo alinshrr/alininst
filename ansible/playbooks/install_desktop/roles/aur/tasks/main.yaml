@@ -1,0 +1,46 @@
+---
+# Install packages from AUR
+
+- name: Upgrade system
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: Set aurman home variable
+  set_fact:
+    aurman_home: /var/lib/aurman
+
+- name: Add user aur_builder
+  user:
+    name: aurman
+    comment: "AUR manager"
+    shell: /bin/nologin
+    home: "{{ aurman_home }}"
+
+- name: Make aurman home directory readable
+  file:
+    path: "{{ aurman_home }}"
+    mode: 0755
+
+- name: Grant aur_builder sudo rights for pacman
+  lineinfile:
+    path: /etc/sudoers.d/11-install-aurman
+    line: 'aurman ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+    create: yes
+    mode: 0640
+    validate: 'visudo -cf %s'
+
+- name: Download Ansible AUR helper
+  git:
+    repo: https://github.com/kewlfft/ansible-aur.git
+    dest: "{{ lookup('env','HOME') }}/.ansible/plugins/modules/aur"
+    clone: yes
+  become: yes
+  become_user: job
+
+- name: Install software from AUR
+  aur:
+    name: google-chrome
+  become: yes
+  become_user: aurman
+

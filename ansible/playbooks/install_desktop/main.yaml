@@ -39,6 +39,9 @@
     - name: Create user
       role: adduser
       tags: adduser
+    - name: Install from AUR
+      role: aur
+      tags: aur
     - name: Setup ssh client
       role: ssh_client
       tags: ssh_client
