@@ -17,3 +17,6 @@ pmlist:
   - gvfs-afc
   - gvfs-gphoto2
   - ifuse
+  - xscreensaver
+  - xss-lock
+  - galculator
