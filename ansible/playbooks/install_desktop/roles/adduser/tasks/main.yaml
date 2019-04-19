@@ -1,7 +1,7 @@
 ---
-# Add user 
+# Add user
 
-- debug: 
+- debug:
     msg: "{{ pwd }}"
 
 - name: add user job
@@ -11,6 +11,6 @@
     # update_password: on_create
     update_password: always
     shell: /bin/bash
-    groups: wheel, users
+    groups: users, video, wheel	    #video is used to adjust backlight
     append: yes
 

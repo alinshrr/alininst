@@ -27,23 +27,11 @@
     name: lxdm
     enabled: yes
 
-- name: Set udev rules for backlight
-  copy:
-    src: files/90-backlight.rules
-    dest: /etc/udev/rules.d/90-backlight.rules
-    mode: 0644
-
 - name: Set keyboard
   copy:
     src: files/00-keyboard.conf
     dest: /etc/X11/xorg.conf.d/00-keyboard.conf
     mode: 0644
-
-    #- name: Specify correct directory for backlight
-    #  copy:
-    #    src: files/20-intel.conf
-    #    dest: /etc/X11/xorg.conf.d/20-intel.conf
-    #    mode: 0644
 
 - name: Set trackpoint acceleration
   copy:

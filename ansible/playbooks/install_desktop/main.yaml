@@ -33,6 +33,9 @@
     - name: Battery management
       role: battery
       tags: battery
+    - name: Backlight
+      role: backlight
+      tags: backlight
     - name: Install GUI LXDE
       role: install_gui
       tags: inst_gui

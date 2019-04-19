@@ -6,9 +6,7 @@ pmlist:
   - xarchiver
   - leafpad
   - wifi-radar
-  - xorg-xbacklight
   - acpi
-  - acpilight
   - dunst
   - evince
   - keepassxc
