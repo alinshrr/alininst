@@ -19,3 +19,9 @@
     name: org.cups.cupsd.service
     enabled: yes
     state: started
+
+- name: Add user job to cups group
+  user:
+    name: job
+    groups: cups
+    append: yes
