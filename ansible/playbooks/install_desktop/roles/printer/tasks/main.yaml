@@ -10,6 +10,12 @@
     update_cache: yes
     upgrade: yes
 
-- name: Install backlight utility
+- name: Install cups and hplip
   pacman:
     name: cups, cups-pdf, hplip
+
+- name: Enable cups
+  systemd:
+    name: org.cups.cupsd.service
+    enabled: yes
+    state: started
