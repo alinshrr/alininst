@@ -1,0 +1,15 @@
+---
+# Install backlight utility and setup
+
+#- name: Include vars file
+#  include_vars:
+#    file: ./vars/main.yaml
+
+- name: Upgrade system
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install backlight utility
+  pacman:
+    name: cups, cups-pdf, hplip

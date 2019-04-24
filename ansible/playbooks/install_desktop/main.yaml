@@ -48,3 +48,6 @@
     - name: Setup ssh client
       role: ssh_client
       tags: ssh_client
+    - name: Install printer (HP)
+      role: printer
+      tags: printer
