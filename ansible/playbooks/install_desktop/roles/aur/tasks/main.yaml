@@ -41,6 +41,7 @@
 - name: Install software from AUR
   aur:
     name: google-chrome
+    skip_installed: yes
   become: yes
   become_user: aurman
 
