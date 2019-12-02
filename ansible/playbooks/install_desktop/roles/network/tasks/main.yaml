@@ -17,10 +17,11 @@
     policy: deny
     direction: incoming
     log: yes
-    
+
 - name: Status of firewall
   command: ufw status verbose
   register: ufw_status
+  check_mode: no
 
 - debug:
     msg: "{{ ufw_status.stdout.split('\n') }}"
