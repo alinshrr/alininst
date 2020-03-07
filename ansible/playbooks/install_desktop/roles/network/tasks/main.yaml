@@ -39,6 +39,11 @@
     name: netctl-ifplugd@enp0s25.service
     enabled: yes
 
+- name: Disable wpa_supplicant client since it will be started by netctl-auto
+  systemd:
+    name: wpa_supplicant
+    enabled: no
+
 - name: Enable automatic wlan connection
   systemd:
     name: netctl-auto@wlp3s0.service
