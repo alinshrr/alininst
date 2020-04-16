@@ -1,0 +1,32 @@
+---
+# build arch iso
+
+- name: chmod airootfs/root/
+  file:
+    dest: "{{ item }}"
+    state: absent
+  with_fileglob:
+  - "{{ archlive }}/work/build.make_*"
+
+
+- name: chmod build.sh
+  file:
+    dest: "{{ archlive }}/build.sh"
+    mode: a+x
+
+- name: chmod airootfs/root/
+  file:
+    dest: "{{ item }}"
+    mode: a+x
+  with_fileglob:
+  - "{{ airootfs }}/root/*.sh"
+
+- name: build iso
+  shell: "{{ archlive }}/build.sh -v"
+  register: output
+  when: False
+
+- name: copy iso to usb device
+  command: >
+    dd bs=4M if={{ archlive }}/out/archlinux-2020.03.30-x86_64.iso 
+    of=/dev/sdb status=progress oflag=sync

@@ -1,0 +1,48 @@
+---
+# copy files from active arch linux system to archlive 
+
+- name: copy wifi profiles
+  block:
+  - name: set netctl
+    set_fact:
+        netctl: /etc/netctl
+
+  - debug: var=netctl
+
+  - name: copy wifi profiles
+    copy: 
+        src: "{{ item }}"
+        dest: "{{ airootfs }}{{ netctl }}/"
+    with_fileglob:
+        - "{{ netctl }}/w*"
+        - "{{ netctl }}/enp0s25"
+
+- name: copy /data/alininst
+  block:
+  - name: set alininst
+    set_fact:
+        alininst: /data/alininst
+
+  - debug: var=alininst
+
+  - name: copy alininst
+    copy: 
+        src: "{{ alininst }}"
+        dest: "{{ airootfs }}{{ alininst }}"
+
+- name: copy /home/job/Documents
+  block:
+  - name: set my_docs
+    set_fact:
+        my_docs: /home/job/Documents
+
+  - debug: var=my_docs
+
+  - name: copy my documents
+    copy: 
+        src: "{{ my_docs }}"
+        dest: "{{ airootfs }}{{ alininst }}"
+
+- name: create software list
+  shell: "pacman -Q > {{ airootfs }}/data/installed_packages"
+  tags: pacman
