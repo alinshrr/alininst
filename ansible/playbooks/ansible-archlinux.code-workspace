@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"path": "new_system_pacstrap"
+		},
+		{
+			"path": "/home/job/bin"
+		},
+		{
+			"path": "create_archiso_usb"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "/tmp"
+		},
+		{
+			"path": "create_archlive"
+		}
+	],
+	"settings": {
+		"telemetry.enableCrashReporter": false,
+		"telemetry.enableTelemetry": false,
+		"terraform.telemetry.enabled": false
+	}
+}

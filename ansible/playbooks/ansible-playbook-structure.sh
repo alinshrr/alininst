@@ -1,0 +1,1 @@
+/home/job/bin/ansible-playbook-structure.sh
