@@ -1,0 +1,134 @@
+---
+# create a arch linux iso on usb to install arch linux on computer
+
+- name: specify usb device
+  block:
+  - name: show storage devices
+    command: lsblk
+    register: lsblk
+    changed_when: false
+    check_mode: no
+
+  - debug: var=lsblk.stdout_lines
+
+  - name: enter name of usb device 
+    pause: 
+      prompt: Please enter USB device name
+    register: prompt_usb_device
+
+  - name: standardise variable usb_device
+    set_fact:
+      usb_device: "{{ prompt_usb_device.user_input }}"
+
+  - name: check if usb_device exists
+    stat:
+      path: "{{ usb_device }}"
+    register: dev
+
+  - debug: var=dev.stat.exists
+
+  - name: fail if usb_device does not exist
+    fail:
+      msg: "usb_device {{ usb_device }} does not exist"
+    when: not dev.stat.exists
+    check_mode: no
+
+- name: confirm to continue
+  block:
+  - name: ask for confirmation
+    pause:
+      prompt: "Are you sure you want to formate {{ usb_device }}? (yes/No)"
+    register: prompt_confirm
+
+  - name: standardise varibale isConfirmed
+    set_fact:
+      isConfirmed: "{{ (prompt_confirm.user_input == 'yes') |bool }}"
+
+  - debug: var=isConfirmed
+
+- name: create arch iso on usb device
+  block:
+  - name: create temporary download directory
+    tempfile:
+      state: directory
+      suffix: _archinstall
+      path: /home/job/tmp
+    register: tmpdir
+    check_mode: no
+
+  # using signature file instead of sha1 hash key
+  # - name: get sha1 url
+  #   script: "{{ role_path }}/files/getArchIsoUrl.sh sha1"
+  #   register: ret_sha1_url
+
+  - name: assign variable func
+    set_fact:
+      # func: "files/getArchIsoUrl.sh"
+      func: "files/getArchIsoUrl.sh --local"
+    tags: test
+
+  - debug: var=func
+
+  - name: get sig url
+    # command: "echo Hello sig"
+    script: "{{ role_path }}/{{ func }} sig"
+    register: ret_sig_url
+    check_mode: no
+    tags: test
+
+  - debug: var=ret_sig_url.stdout
+    tags: test
+
+  - name: get sig file name
+    script: "{{ role_path }}/{{ func }} sig_file"
+    register: ret_sig_file
+    check_mode: no
+
+  - name: get iso url
+    script: "{{ role_path }}/{{ func }} iso"
+    register: ret_iso_url
+    check_mode: no
+
+  - name: get iso file name
+    script: "{{ role_path }}/{{ func }} iso_file"
+    register: ret_iso_file
+    check_mode: no
+
+  - debug: var=tmpdir.path
+  - debug: var=ret_iso_url.stdout
+
+  - name: get arch linux iso file
+    get_url: 
+      url: "{{ret_iso_url.stdout}}"
+      dest: "{{tmpdir.path}}"
+      timeout: 600
+    check_mode: no
+
+  - name: get signature
+    get_url: 
+      url: "{{ret_sig_url.stdout}}"
+      dest: "{{tmpdir.path}}"
+    check_mode: no
+
+  - name: validate signature of iso
+    command: "pacman-key -v {{ tmpdir.path }}/{{ ret_sig_file.stdout }}"
+    register: val_sig
+    check_mode: no
+
+  - debug: var=val_sig
+    
+  - name: copy iso to usb device
+    command: >
+      dd bs=4M if={{ tmpdir.path }}/{{ ret_iso_file.stdout }} 
+      of={{ usb_device }} status=progress oflag=sync
+    become: yes
+    become_user: root
+  
+  # always:
+  # - name: clean dir
+  #   file: 
+  #     path: "{{ tmpdir.path }}"
+  #     state: absent
+
+  when: isConfirmed
+

@@ -1,0 +1,10 @@
+---
+# create a arch linux iso on usb to install arch linux on computer
+
+- hosts: localhost
+  vars:
+    http_port: 80
+    max_clients: 200
+
+  roles:
+    - role: usb_iso
