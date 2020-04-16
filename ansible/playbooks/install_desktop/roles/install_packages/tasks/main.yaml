@@ -16,6 +16,7 @@
       gvim
       openssh
       os-prober
+      rsync
       sudo
       ttf-dejavu
       wget

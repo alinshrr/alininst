@@ -35,12 +35,21 @@
     repo: https://github.com/kewlfft/ansible-aur.git
     dest: "{{ lookup('env','HOME') }}/.ansible/plugins/modules/aur"
     clone: yes
-  become: yes
+  become: no
   become_user: job
 
-- name: Install software from AUR
+- name: Install Google Chrome from AUR
   aur:
     name: google-chrome
+    use: makepkg
+    skip_installed: no
+  become: yes
+  become_user: aurman
+
+- name: Install Archi from AUR
+  aur:
+    name: archi
+    use: makepkg
     skip_installed: yes
   become: yes
   become_user: aurman
