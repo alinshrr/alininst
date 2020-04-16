@@ -1,0 +1,12 @@
+---
+# create archlive from archiso releng aci_access_port_to_interface_policy_leaf_profile
+
+- name: create archlive folder
+  file:
+    path: "{{ archlive }}"
+    state: directory
+
+- name: copy releng profile to archlive
+  copy:
+    src: /usr/share/archiso/configs/releng/
+    dest: "{{ archlive }}"
