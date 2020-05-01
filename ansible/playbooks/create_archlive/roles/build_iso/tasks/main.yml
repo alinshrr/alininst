@@ -8,7 +8,6 @@
   with_fileglob:
   - "{{ archlive }}/work/build.make_*"
 
-
 - name: chmod build.sh
   file:
     dest: "{{ archlive }}/build.sh"
@@ -22,12 +21,120 @@
   - "{{ airootfs }}/root/*.sh"
   - "{{ airootfs }}/root/.*.sh"
 
-- name: build iso
-  shell: "{{ archlive }}/build.sh -v"
-  register: output
-#  when: False
+# build arch iso file
+- name: arch iso build
+  block:
+  - name: check if iso should be built
+    pause:
+      prompt: >-
+        Are you sure you want to build the arch iso file (yes/No)
+    register: prompt_confirm
 
-- name: copy iso to usb device
-  command: >
-    dd bs=4M if={{ archlive }}/out/archlinux-2020.03.30-x86_64.iso
-    of=/dev/sdb status=progress oflag=sync
+  - name: standardise prompt
+    set_fact:
+      isConfirmed: "{{ (prompt_confirm.user_input == 'yes') |bool }}"
+
+  - debug: 
+      var: isConfirmed
+      verbosity: 3      
+
+  - name: set variables
+    set_fact:
+      archiso_out: "{{ archlive }}/out"
+      archiso_work: "{{ archlive }}/work"
+      iso_name: archiso
+      iso_version: "{{ ansible_date_time.date | replace('-', '.') }}"
+
+  - name: assign cmd_build
+    set_fact:
+      cmd_build: >
+        {{ archlive }}/build.sh -v -w {{ archiso_work }} -o {{ archiso_out }}
+        -N {{ iso_name }} -V {{ iso_version }}
+
+  - debug: var=cmd_build
+
+  - name: build arch iso
+    block:
+    - name: build arch iso
+      shell: " {{ cmd_build }} "
+        # {{ archlive }}/build.sh -v -w {{ archiso_work }} -o {{ archiso_out }} 
+        # -N {{ iso_name }} -V {{ iso_version }}
+      register: build_output
+    when: isConfirmed
+      
+  - debug: 
+      var: build_output.stdout_lines
+      verbosity: 3
+
+# Copy iso file to usb storage device
+- name: copy usb device to usb storage device
+  block:
+  - name: get usb devices
+    shell: lsblk -l --paths --noheadings --scsi -o name,tran |gawk '$2 == "usb"{print $1}'
+    register: getUsbDevices
+
+  - name: ask which device to use if there is more than one
+    pause:
+      prompt: >-
+        We found {{ getUsbDevices.stdout_lines|length }} USB storage device(s)
+        {{ getUsbDevices.stdout_lines }}.  Please enter the device you want to
+        use (eg. /dev/sdb)
+    register: prompt_usbdev
+    when: getUsbDevices.stdout_lines|length > 1
+
+  - name: set variable usbdev
+    set_fact:
+      usbdev: "{{ prompt_usbdev.user_input | default(getUsbDevices.stdout_lines[0], true) }}"
+    when: getUsbDevices.stdout_lines|length > 0
+
+  - name: exit if usbdev not defined
+    fail: 
+      msg: There is no USB storage device.
+    when: usbdev is undefined
+
+  - name: get facts for usbdev
+    stat:
+      path: "{{ usbdev }}"
+    register: facts_usbdev
+
+  - name: set usbdev_exists
+    set_fact:
+      usbdev_exists: "{{ facts_usbdev.stat.exists == true | bool }}"
+
+  - fail:
+      msg: "usbdev '{{ usbdev }}' does not exist"
+    when: not usbdev_exists 
+
+  - debug: 
+      var: usbdev_exists
+      verbosity: 3
+
+  - name: set cmd_cpiso
+    set_fact:
+      cmd_cpiso: >-
+        dd bs=4M if={{ archlive }}/out/{{ iso_name }}-{{ iso_version }}-x86_64.iso
+        of={{ usbdev }} oflag=sync
+
+  - name: check if iso should be copied on usb storage device
+    pause:
+      prompt: >-
+        Do you want to copy the arch iso file on usb device {{ usbdev }}
+
+        cmd: {{ cmd_cpiso }}
+        (yes/No)
+    register: prompt_confirm
+
+  - name: standardise prompt
+    set_fact:
+      isConfirmed: "{{ (prompt_confirm.user_input == 'yes') |bool }}"
+
+  - debug: 
+      var: isConfirmed
+      verbosity: 3
+
+  - name: copy iso to usb device
+    command: " {{ cmd_cpiso }} "
+      # dd bs=4M if={{ archlive }}/out/{{ iso_name }}-{{ iso_version }}-x86_64.iso
+      # of={{ usbdev }} oflag=sync
+    when: usbdev_exists and isConfirmed
+

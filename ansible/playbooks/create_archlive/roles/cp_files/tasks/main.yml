@@ -1,5 +1,20 @@
 ---
-# copy files from active arch linux system to archlive 
+# copy files from active arch linux system to archlive
+
+- name: install software packages
+  lineinfile:
+    path: " {{ archiso }} packages.x86_64"
+    line: "{{ item }}"
+  with_items:
+    - ansible
+    - git
+    - pacman-contrib
+    - intel-ucode
+
+- name: copy wifi profiles
+  copy:
+    src: /etc/pacman.d/mirrorlist
+    dest: "{{ airootfs }}/etc/pacman.d/"
 
 - name: copy wifi profiles
   block:
@@ -10,7 +25,7 @@
   - debug: var=netctl
 
   - name: copy wifi profiles
-    copy: 
+    copy:
         src: "{{ item }}"
         dest: "{{ airootfs }}{{ netctl }}/"
     with_fileglob:
@@ -26,23 +41,23 @@
   - debug: var=alininst
 
   - name: copy alininst
-    copy: 
+    copy:
         src: "{{ alininst }}"
-        dest: "{{ airootfs }}{{ alininst }}"
+        dest: "{{ airootfs }}{{ alininst }}_cp"
 
-- name: copy /home/job/Documents
-  block:
-  - name: set my_docs
-    set_fact:
-        my_docs: /home/job/Documents
+# - name: copy /home/job/Documents
+#   block:
+#   - name: set my_docs
+#     set_fact:
+#         my_docs: /home/job/Documents
 
-  - debug: var=my_docs
+#   - debug: var=my_docs
 
-  - name: copy my documents
-    copy: 
-        src: "{{ my_docs }}"
-        dest: "{{ airootfs }}{{ alininst }}"
+#   - name: copy my documents
+#     copy:
+#         src: "{{ my_docs }}"
+#         dest: "{{ airootfs }}{{ alininst }}"
 
 - name: create software list
-  shell: "pacman -Q > {{ airootfs }}/data/installed_packages"
+  shell: "pacman -Qe > {{ airootfs }}/data/install/installed_packages"
   tags: pacman
