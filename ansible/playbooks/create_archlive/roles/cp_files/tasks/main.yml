@@ -3,7 +3,7 @@
 
 - name: install software packages
   lineinfile:
-    path: " {{ archiso }} packages.x86_64"
+    path: "{{ archlive }}/packages.x86_64"
     line: "{{ item }}"
   with_items:
     - ansible
@@ -32,18 +32,18 @@
         - "{{ netctl }}/w*"
         - "{{ netctl }}/enp0s25"
 
-- name: copy /data/alininst
-  block:
-  - name: set alininst
-    set_fact:
-        alininst: /data/alininst
+# - name: copy /data/alininst
+#   block:
+#   - name: set alininst
+#     set_fact:
+#         alininst: /data/alininst
 
-  - debug: var=alininst
+#   - debug: var=alininst
 
-  - name: copy alininst
-    copy:
-        src: "{{ alininst }}"
-        dest: "{{ airootfs }}{{ alininst }}_cp"
+#   - name: copy alininst
+#     copy:
+#         src: "{{ alininst }}"
+#         dest: "{{ airootfs }}{{ alininst }}_cp"
 
 # - name: copy /home/job/Documents
 #   block:
@@ -58,6 +58,11 @@
 #         src: "{{ my_docs }}"
 #         dest: "{{ airootfs }}{{ alininst }}"
 
+- name: create dir /data
+  file:
+    path: "{{ airootfs }}/data"
+    state: directory
+
 - name: create software list
-  shell: "pacman -Qe > {{ airootfs }}/data/install/installed_packages"
+  shell: "pacman -Qe > {{ airootfs }}/data/installed_packages"
   tags: pacman

@@ -40,15 +40,15 @@
 
   - name: set variables
     set_fact:
-      archiso_out: "{{ archlive }}/out"
-      archiso_work: "{{ archlive }}/work"
+      archlive_out: "{{ archlive }}/out"
+      archlive_work: "{{ archlive }}/work"
       iso_name: archiso
       iso_version: "{{ ansible_date_time.date | replace('-', '.') }}"
 
   - name: assign cmd_build
     set_fact:
       cmd_build: >
-        {{ archlive }}/build.sh -v -w {{ archiso_work }} -o {{ archiso_out }}
+        {{ archlive }}/build.sh -v -w {{ archlive_work }} -o {{ archlive_out }}
         -N {{ iso_name }} -V {{ iso_version }}
 
   - debug: var=cmd_build
@@ -57,7 +57,7 @@
     block:
     - name: build arch iso
       shell: " {{ cmd_build }} "
-        # {{ archlive }}/build.sh -v -w {{ archiso_work }} -o {{ archiso_out }} 
+        # {{ archlive }}/build.sh -v -w {{ archlive_work }} -o {{ archlive_out }} 
         # -N {{ iso_name }} -V {{ iso_version }}
       register: build_output
     when: isConfirmed
