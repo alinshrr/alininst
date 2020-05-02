@@ -2,13 +2,16 @@
 # Install and config grub
 
 - name: Pacstrap grub and os-prober
-  command: /usr/bin/pacstrap /mnt grub os-prober
+  command: /usr/bin/pacstrap /mnt grub efibootmgr os-prober
 
 - name: Generate ramdisk
   command: /usr/bin/arch-chroot /mnt /bin/mkinitcpio -p linux chdir=/boot
 
 - name: Run grub install
-  command: "/usr/bin/arch-chroot /mnt /bin/grub-install --target=i386-pc --recheck {{ device.name }}"
+  # command: "/usr/bin/arch-chroot /mnt /bin/grub-install --target=i386-pc --recheck {{ device.name }}"
+  command: >-
+    /usr/bin/arch-chroot /mnt /bin/grub-install --target=x86_64_efi --efi-directory=/efi 
+    --bootloader-id=GRUB
 
 # - name: Mount windows boot partition
 #   command: "/usr/bin/arch-chroot /mnt /usr/bin/mount {{ device.windows }} /mnt"
