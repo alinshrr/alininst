@@ -1,11 +1,11 @@
 ---
 # copy files to new system
 
-- name: Copy ssh id
-  copy:
-    src: /root/.ssh
-    dest: /mnt/root
-    force: yes
+# - name: Copy ssh id
+#   copy:
+#     src: /root/.ssh
+#     dest: /mnt/root
+#     force: yes
 
 - name: Create folder /data
   file:
@@ -14,5 +14,5 @@
 
 - name: Copy this repo to ne system
   git:
-    repo: git@github.com:alinshrr/alininst.git
-    dest: /mnt/data/alininst
+    repo: https://github.com/alinshrr/alininst.git
+    dest: /mnt/data/

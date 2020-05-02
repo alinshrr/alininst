@@ -7,3 +7,10 @@
     path: /mnt
     fstype: ext4
     state: mounted
+
+- name: Mount efi
+  mount:
+    src: "{{ device.efi }}"
+    path: /mnt/efi
+    fstype: vfat
+    state: mounted

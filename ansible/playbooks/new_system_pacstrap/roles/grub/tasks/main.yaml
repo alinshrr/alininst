@@ -10,21 +10,21 @@
 - name: Run grub install
   command: "/usr/bin/arch-chroot /mnt /bin/grub-install --target=i386-pc --recheck {{ device.name }}"
 
-- name: Mount windows boot partition
-  command: "/usr/bin/arch-chroot /mnt /usr/bin/mount {{ device.windows }} /mnt"
+# - name: Mount windows boot partition
+#   command: "/usr/bin/arch-chroot /mnt /usr/bin/mount {{ device.windows }} /mnt"
 
 - name: Generate grub.cfg
   command: /usr/bin/arch-chroot /mnt /bin/grub-mkconfig -o /boot/grub/grub.cfg
 
-- name: Check if Windows was recognised
-  command: os-prober
-  register: osprober
+# - name: Check if Windows was recognised
+#   command: os-prober
+#   register: osprober
 
-- name: Debug os-prober
-  debug: 
-    msg:
-      - "stdout: {{ osprober.stdout }}"
-      - "stderr: {{ osprober.stderr }}"
+# - name: Debug os-prober
+#   debug: 
+#     msg:
+#       - "stdout: {{ osprober.stdout }}"
+#       - "stderr: {{ osprober.stderr }}"
 
-- name: Umount windows boot partition
-  command: "/usr/bin/arch-chroot /mnt /usr/bin/umount /mnt"
+# - name: Umount windows boot partition
+#   command: "/usr/bin/arch-chroot /mnt /usr/bin/umount /mnt"
